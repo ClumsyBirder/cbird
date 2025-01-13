@@ -6,6 +6,8 @@
 @Author   : wiesZheng
 @Software : PyCharm
 """
+from typing import AsyncGenerator
+
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -36,11 +38,12 @@ async_engine = create_async_engine(
     pool_timeout=settings.MYSQL_POOL_TIMEOUT,
 )
 
-# 初始化Session工厂
-AsyncSessionLocal = async_sessionmaker(
+async_session_maker = async_sessionmaker(
     bind=async_engine, class_=AsyncSession, autocommit=False, expire_on_commit=False
 )
 Base = declarative_base()
+
+
 async def init_db():
     try:
         async with async_engine.begin() as conn:
@@ -50,8 +53,9 @@ async def init_db():
         logger.error(f"Error initializing database: {str(e)}")
         raise
 
-async def get_db():
-    async with AsyncSessionLocal() as session:
+
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_maker() as session:
         logger.debug("Database session created")
         try:
             yield session

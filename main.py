@@ -16,7 +16,7 @@ from app.api import api_router
 from app.core.middleware import error_handler_middleware
 from app.utils.openapi import get_stoplight_ui_html
 from config import settings, ROOT
-from app.db.session import init_db
+
 
 description = """
     \n\n![](https://i.ibb.co/v3Yt03v/todo-api-background.png)\n\n ## \U0001f4ab Overview\n\nTo Do API provides a simple way
