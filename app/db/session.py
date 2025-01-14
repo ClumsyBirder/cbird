@@ -54,7 +54,7 @@ async def init_db():
         raise
 
 
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
+async def generate_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         logger.debug("Database session created")
         try:

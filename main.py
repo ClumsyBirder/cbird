@@ -13,7 +13,9 @@ from starlette.staticfiles import StaticFiles
 
 from app import lifespan
 from app.api import api_router
-from app.core.middleware import error_handler_middleware
+from app.core.exceptions import register_exception_handlers
+
+# from app.core.middleware import error_handler_middleware
 from app.utils.openapi import get_stoplight_ui_html
 from config import settings, ROOT
 
@@ -63,8 +65,8 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     mount_static_files(_app)
-
-    _app.middleware("http")(error_handler_middleware)
+    register_exception_handlers(_app)
+    # _app.middleware("http")(error_handler_middleware)
     _app.include_router(api_router, prefix=settings.APP_API_STR)
     configure_docs(_app)
 
