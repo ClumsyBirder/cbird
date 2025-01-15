@@ -12,9 +12,15 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.responses import JSONResponse
 
 
-def register_exception_handlers(_app: FastAPI):
+def init_exception_handlers(_app: FastAPI) -> None:
+    """
+    初始化异常处理器
+    :param _app:
+    :return:
+    """
+
     @_app.exception_handler(StarletteHTTPException)
-    async def http_exception_handlers(request: Request, exc: StarletteHTTPException):
+    async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         logger.warning(
             f"Http请求异常\n"
             f"Method:{request.method}\n"

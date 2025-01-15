@@ -6,8 +6,9 @@
 @Author   : wiesZheng
 @Software : PyCharm
 """
-from fastapi import APIRouter
-from app.api.v1 import users
+from fastapi import APIRouter, FastAPI
+from app.apis.v1 import users
+from config import settings
 
 api_router = APIRouter()
 
@@ -17,3 +18,11 @@ api_router = APIRouter()
         (users.router, "/system/users", "System users"),
     ]
 ]
+
+
+
+def init_router(_app:FastAPI):
+    """
+    注册路由
+    """
+    _app.include_router(api_router, prefix=settings.APP_API_STR)

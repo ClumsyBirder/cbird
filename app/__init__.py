@@ -11,12 +11,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from loguru import logger
 
-from app.db.session import init_db
+from app.models import init_db
 from config import settings
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_app: FastAPI):
     logger.success(settings.BANNER)
     logger.info("Starting up the application")
     await init_db()

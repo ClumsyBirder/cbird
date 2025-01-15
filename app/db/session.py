@@ -14,7 +14,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import declarative_base
+
 
 from config import settings
 from loguru import logger
@@ -41,20 +41,13 @@ async_engine = create_async_engine(
 async_session_maker = async_sessionmaker(
     bind=async_engine, class_=AsyncSession, autocommit=False, expire_on_commit=False
 )
-Base = declarative_base()
 
-
-async def init_db():
-    try:
-        async with async_engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
-        logger.info("Database initialized successfully")
-    except Exception as e:
-        logger.error(f"Error initializing database: {str(e)}")
-        raise
 
 
 async def generate_async_session() -> AsyncGenerator[AsyncSession, None]:
+    """
+    生成数据库会话
+    """
     async with async_session_maker() as session:
         logger.debug("Database session created")
         try:

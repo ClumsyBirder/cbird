@@ -8,17 +8,14 @@
 """
 import os
 from fastapi import FastAPI
-from loguru import logger
+from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from app import lifespan
-from app.api import api_router
-from app.core.exceptions import register_exception_handlers
-
-# from app.core.middleware import error_handler_middleware
+from app.apis import init_router
+from app.exception import init_exception_handlers
 from app.utils.openapi import get_stoplight_ui_html
 from config import settings, ROOT
-
 
 description = """
     \n\n![](https://i.ibb.co/v3Yt03v/todo-api-background.png)\n\n ## \U0001f4ab Overview\n\nTo Do API provides a simple way
@@ -38,10 +35,11 @@ def mount_static_files(_app: FastAPI) -> None:
         "/static", StaticFiles(directory=os.path.join(ROOT, "static")), name="static"
     )
 
+
 def configure_docs(_app: FastAPI) -> None:
     @_app.get("/openapi", include_in_schema=False)
     async def api_documentation():
-        """Add stoplight elements api doc. https://dev.to/amal/replacing-fastapis-default-api-docs-with-elements-391d"""
+        """Add stoplight elements apis doc. https://dev.to/amal/replacing-fastapis-default-api-docs-with-elements-391d"""
         return get_stoplight_ui_html(
             openapi_url="/openapi.json",
             title=settings.APP_NAME + " - OpenApi",
@@ -64,10 +62,19 @@ def create_app() -> FastAPI:
         redoc_url=None,
         lifespan=lifespan,
     )
+
+    _app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        expose_headers=["*"],
+    )
     mount_static_files(_app)
-    register_exception_handlers(_app)
-    # _app.middleware("http")(error_handler_middleware)
-    _app.include_router(api_router, prefix=settings.APP_API_STR)
+    init_exception_handlers(_app)
+
+    init_router(_app)
     configure_docs(_app)
 
     return _app

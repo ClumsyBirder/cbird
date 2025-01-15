@@ -10,8 +10,11 @@ from fastapi import Request, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from app.core.exceptions import AppException
+
 from loguru import logger
+
+from app.exception.errors import AppException
+
 
 async def error_handler_middleware(request: Request, call_next):
     try:

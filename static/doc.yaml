@@ -3,7 +3,7 @@ info:
   title: To-dos
   version: 1.0.0
   description:
-    "![](https://i.ibb.co/v3Yt03v/todo-api-background.png)\n\n## \U0001F4AB Overview\n\nTo Do API provides a simple way
+    "![](https://i.ibb.co/v3Yt03v/todo-apis-background.png)\n\n## \U0001F4AB Overview\n\nTo Do API provides a simple way
     for people to manage their tasks and plan their day. This API can be used to create mobile and web applications.This
     API is documented using **OpenAPI 3.0**. The implementation lives in this [GitHub
     repo](https://github.com/stoplight-qa/studio-demo/blob/main/reference/todos/todo.v1.yaml).\n\n### \U0001F9F0

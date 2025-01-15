@@ -6,7 +6,7 @@
 @Author   : wiesZheng
 @Software : PyCharm
 """
-from app.core.exceptions.handler import register_exception_handlers
 
-__all__ = ["register_exception_handlers"]
+from .handler import init_exception_handlers
 
+__all__ = ["init_exception_handlers"]

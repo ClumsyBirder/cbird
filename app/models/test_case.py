@@ -9,7 +9,7 @@
 from datetime import datetime, UTC
 from sqlalchemy import Integer, Column, String, JSON, TIMESTAMP
 
-from app.db.session import Base
+from app.models import Base
 
 
 class TestCase(Base):
