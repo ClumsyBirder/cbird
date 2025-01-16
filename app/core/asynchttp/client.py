@@ -26,6 +26,18 @@ class HttpMethod(Enum):
     HEAD = "HEAD"
     OPTIONS = "OPTIONS"
 
+class AsyncHttpResponse:
+    """
+    异步HTTP响应
+    """
+
+    def __init__(self, response: ClientResponse):
+        """
+        初始化异步HTTP响应
+        :param response: 原始响应
+        """
+        self._response = response
+
 
 class AsyncHttpClient:
     """
